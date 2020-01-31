@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>API Reference</title>
+    <title>API Documentation</title>
 
     <style>
       .highlight table td { padding: 5px; }
@@ -196,309 +196,241 @@
   color: #f92672;
 }
     </style>
-    <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
-    <link href="stylesheets/print.css" rel="stylesheet" media="print" />
-      <script src="javascripts/all.js"></script>
+    <link href="stylesheets/screen-a1ce949a.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print-bccf8c07.css" rel="stylesheet" media="print" />
+      <script src="javascripts/all_nosearch-c275c2f6.js"></script>
   </head>
 
-  <body class="index" data-languages="[&quot;shell&quot;,&quot;ruby&quot;,&quot;python&quot;,&quot;javascript&quot;]">
+  <body class="index" data-languages="[]">
     <a href="#" id="nav-button">
       <span>
         NAV
-        <img src="images/navbar.png" alt="Navbar" />
+        <img src="images/navbar-cad8cdcb.png" alt="Navbar" />
       </span>
     </a>
     <div class="toc-wrapper">
-      <img src="images/logo.png" class="logo" alt="Logo" />
-        <div class="lang-selector">
-              <a href="#" data-language-name="shell">shell</a>
-              <a href="#" data-language-name="ruby">ruby</a>
-              <a href="#" data-language-name="python">python</a>
-              <a href="#" data-language-name="javascript">javascript</a>
-        </div>
-        <div class="search">
-          <input type="text" class="search" id="input-search" placeholder="Search">
-        </div>
-        <ul class="search-results"></ul>
+      <img src="images/logo-5d0c5f50.png" class="logo" alt="Logo" />
       <ul id="toc" class="toc-list-h1">
           <li>
             <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
           </li>
           <li>
-            <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
-          </li>
-          <li>
-            <a href="#kittens" class="toc-h1 toc-link" data-title="Kittens">Kittens</a>
+            <a href="#why-gql" class="toc-h1 toc-link" data-title="Why GQL?">Why GQL?</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#get-all-kittens" class="toc-h2 toc-link" data-title="Get All Kittens">Get All Kittens</a>
+                    <a href="#smaller-customizable-payloads" class="toc-h2 toc-link" data-title="Smaller, Customizable Payloads">Smaller, Customizable Payloads</a>
                   </li>
                   <li>
-                    <a href="#get-a-specific-kitten" class="toc-h2 toc-link" data-title="Get a Specific Kitten">Get a Specific Kitten</a>
+                    <a href="#strongly-typed" class="toc-h2 toc-link" data-title="Strongly Typed">Strongly Typed</a>
                   </li>
                   <li>
-                    <a href="#delete-a-specific-kitten" class="toc-h2 toc-link" data-title="Delete a Specific Kitten">Delete a Specific Kitten</a>
+                    <a href="#self-documenting" class="toc-h2 toc-link" data-title="Self Documenting">Self Documenting</a>
+                  </li>
+                  <li>
+                    <a href="#further-reading" class="toc-h2 toc-link" data-title="Further Reading">Further Reading</a>
                   </li>
               </ul>
           </li>
           <li>
-            <a href="#errors" class="toc-h1 toc-link" data-title="Errors">Errors</a>
+            <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#jwt" class="toc-h2 toc-link" data-title="JWT">JWT</a>
+                  </li>
+                  <li>
+                    <a href="#add-token-as-header" class="toc-h2 toc-link" data-title="Add Token as Header">Add Token as Header</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#idempotency" class="toc-h1 toc-link" data-title="Idempotency">Idempotency</a>
+          </li>
+          <li>
+            <a href="#versioning" class="toc-h1 toc-link" data-title="Versioning">Versioning</a>
+          </li>
+          <li>
+            <a href="#queries" class="toc-h1 toc-link" data-title="Queries">Queries</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#activities" class="toc-h2 toc-link" data-title="Activities">Activities</a>
+                  </li>
+              </ul>
           </li>
       </ul>
-        <ul class="toc-footer">
-            <li><a href='#'>Sign Up for a Developer Key</a></li>
-            <li><a href='https://github.com/lord/slate'>Documentation Powered by Slate</a></li>
-        </ul>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
         <h1 id='introduction'>Introduction</h1>
-<p>Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.</p>
+<p>Welcome to the PeekPlus GraphQL API!</p>
 
-<p>We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
+<p>You can use our API to access thousands upon thousands of things to do, curated by us.</p>
 
-<p>This example API documentation page was created with <a href="https://github.com/lord/slate">Slate</a>. Feel free to edit it and use it as a base for your own API&#39;s documentation.</p>
-<h1 id='authentication'>Authentication</h1>
-<blockquote>
-<p>To authorize, use this code:</p>
-</blockquote>
-<pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<p>With the PeekPlus API you can</p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+<ul>
+<li>Search For Activities</li>
+<li>Check Real Time Availability</li>
+<li>Create Bookings</li>
+</ul>
+<pre class="highlight plaintext"><code>💥💥  One Endpoint  💥💥
+https://api.peek.com/gql
+</code></pre><h1 id='why-gql'>Why GQL?</h1>
+<p>We chose Graphql over some older standards because it is the <strong>best tool</strong> for us to expose our data to you in an <em>elegant</em>, <em>self-documenting</em>, <em>flexible</em> and <em>performant</em> way.</p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
-curl <span class="s2">"api_endpoint_here"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
+<p>If you are new to Graphql, we are confident you will never
+think about APIs the same way again.</p>
 
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
+<p>If you are already familiar with Graphql, we can feel your excitement; we&#39;re right there with you.</p>
+<h2 id='smaller-customizable-payloads'>Smaller, Customizable Payloads</h2>
+<p>In a traditional &quot;here is the endpoint to return activities&quot; scenario, the original creators would include everything they felt &quot;reasonable&quot; - maybe something like:</p>
+
+<ul>
+<li>name</li>
+<li>description</li>
+<li>image</li>
+</ul>
+
+<p>Then someone comes along and makes a really compelling case for exposing the location. So, for them, we add a few new fields for lat and lng.</p>
+
+<p>Then someone comes along later and asks for review meta data because they want to expose it. Reasonable. So again we go and add a few new fields for the count and average rating.</p>
+
+<p>Then someone comes along and says they want a field that is actually pretty heavy. They are aware that it is heavier but are comfortable only asking for a few activities. So we add it.</p>
+
+<p>Now the original users who just want the name and description are telling us the api is too slow; uh oh they were querying for a ton of activities and that heavy field is now a problem. So we hack together some query params where you can white-list fields:</p>
+
+<p><code>http://example.com/activities?fields=name,description...</code></p>
+
+<p>Great, but when you ask for activities, we actually want to also be able to get the tickets.. so now you are in this world of</p>
+
+<p><code>http://example.com/activities?fields=name,description,tickets.name...</code></p>
+
+<p>And everything starts to feel really dirty.</p>
+
+<p>With GraphQL, we simply expose our object graph:</p>
+
+<ul>
+<li>Activity
+
+<ul>
+<li>Name</li>
+<li>Description</li>
+<li>Tickets</li>
+</ul></li>
+<li>Ticket
+
+<ul>
+<li>Name</li>
+</ul></li>
+</ul>
+
+<p>And you, the owner of your own experience, ask for what you need and we return it to you. Simple as that. Furthermore, if you find your self wanting 4 or 5 different things, you can ask for them all at once saving many round trips to the server.</p>
+
+<p>Wins. All. Around.</p>
+<h2 id='strongly-typed'>Strongly Typed</h2>
+<p>With a traditional &quot;REST API&quot;, you find yourself stringing together complex query params to filter content:</p>
+
+<p><code>http://example.com/activities?sort=price&amp;filter[state]=NY...</code></p>
+
+<p>Inevitably the question comes in; &quot;what are possible values for SORT&quot;, or &quot;what should I use for the STATE?&quot;. In those traditional APIs, you&#39;d be digging for the email that linked to the docs or more likely guessing and checking. It is then up the api server to gracefully handle all possible mistakes to get you a reasonable error message if you deviate from what&#39;s expected. This is a lot of work for both parties, and is error prone.</p>
+
+<p>With Graphql, every query is <strong>Strongly Typed</strong> - you get immediate feedback of what the values can be, and if you deviate from it, the request doesn&#39;t even make it to our application logic; you are immediately given a good error explaining your mistake.</p>
+<h2 id='self-documenting'>Self Documenting</h2>
+<p>Piggy backing on the strongly type point from above, Graphql was written, from the ground up, to be easy to &quot;introspect&quot;. There are a host of great free IDEs out there; we are big fans of <a href="https://insomnia.rest/graphql/">https://insomnia.rest/graphql/</a> - simply by downloading that client and pointing to our sandbox, you have every query, field and mutation documented. We find crafting your queries there and then moving them into your app is a solid way to work.</p>
+<h2 id='further-reading'>Further Reading</h2>
+<ul>
+<li><a href="https://graphql.org/learn/queries/">https://graphql.org/learn/queries/</a></li>
+</ul>
+<h1 id='authentication'>Authentication</h1><h2 id='jwt'>JWT</h2>
+<p>When you are granted access to the API, you will be given an Api Key (&quot;your-api-key&quot;) and a Secret (&quot;your-secret&quot;). Every request you make will require you to create a JWT, that includes your API Key in the <code>sub</code> field and a unique request ID in the <code>reqid</code> field. Which is the signed w/ your Secret:</p>
+
+<p><code>{&quot;sub&quot;: &quot;your-api-key&quot;, &quot;reqid&quot;: &quot;unique-request-id&quot;}</code></p>
+
+<p>If you&#39;re new to JWTs, <a href="https://jwt.io/">https://jwt.io/</a> is a GREAT place to start:</p>
+
+<p><img src="https://user-images.githubusercontent.com/1004167/73561655-38b77700-440e-11ea-8ea7-f00068dc1750.png" alt="image" /></p>
+<pre class="highlight elixir tab-elixir"><code><span class="k">defmodule</span> <span class="no">Token</span> <span class="k">do</span>
+  <span class="kn">use</span> <span class="no">Joken</span><span class="o">.</span><span class="no">Config</span>
+
+  <span class="nv">@doc</span> <span class="sd">"""
+  Given a unique request ID, return a signed token.
+  """</span>
+  <span class="k">def</span> <span class="n">for_request_id</span><span class="p">(</span><span class="n">request_id</span><span class="p">)</span> <span class="k">do</span>
+    <span class="p">{</span><span class="ss">:ok</span><span class="p">,</span> <span class="n">claims</span><span class="p">}</span> <span class="o">=</span>
+      <span class="no">Token</span><span class="o">.</span><span class="n">generate_claims</span><span class="p">(%{</span>
+        <span class="sd">"</span><span class="s2">sub"</span> <span class="o">=&gt;</span> <span class="sd">"</span><span class="s2">your-api-key"</span><span class="p">,</span>
+        <span class="sd">"</span><span class="s2">reqid"</span> <span class="o">=&gt;</span> <span class="n">request_id</span>
+      <span class="p">})</span>
+
+    <span class="p">{</span><span class="ss">:ok</span><span class="p">,</span> <span class="n">token</span><span class="p">,</span> <span class="n">_claims</span><span class="p">}</span> <span class="o">=</span> <span class="n">encode_and_sign</span><span class="p">(</span><span class="n">claims</span><span class="p">,</span> <span class="n">signer</span><span class="p">())</span>
+
+    <span class="n">token</span>
+  <span class="k">end</span>
+
+  <span class="k">defp</span> <span class="n">signer</span><span class="p">,</span> <span class="k">do</span><span class="p">:</span> <span class="no">Joken</span><span class="o">.</span><span class="no">Signer</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="sd">"</span><span class="s2">HS256"</span><span class="p">,</span> <span class="sd">"</span><span class="s2">your-secret"</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="no">Token</span><span class="o">.</span><span class="n">for_request_id</span><span class="p">(</span><span class="sd">"</span><span class="s2">unique-request-id"</span><span class="p">)</span>
 </code></pre>
-<blockquote>
-<p>Make sure to replace <code>meowmeowmeow</code> with your API key.</p>
-</blockquote>
+<p>The reason we chose JWT is because there exists a client for (nearly?) every language imaginable. No need to write your own logic, just find the library (all listed on the above site) for your language and it should be straightforward from there.</p>
 
-<p>Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our <a href="http://example.com/developers">developer portal</a>.</p>
+<p>We are an Elixir Shop (don&#39;t even get me started), so our Library of choice is called <code>Joken</code>; on the right is how you might choose to implement the above w/ Joken.</p>
+<h2 id='add-token-as-header'>Add Token as Header</h2>
+<p>The Token you generated above has to be included in the header for every request:</p>
 
-<p>Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:</p>
+<p><code>Authorization: Bearer TOKEN</code></p>
 
-<p><code>Authorization: meowmeowmeow</code></p>
+<aside class="info">Replace TOKEN with your own token</aside>
 
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+<aside class="warning">Please keep your API credentials secret. Do not put it in client-side code.</aside>
+<h1 id='idempotency'>Idempotency</h1>
+<p>Since every request that you make must contain a unique request id inside the signed token, if you make a second request w/ the same request id we will assume this you replaying a request and will return the original response.</p>
+
+<aside class="warning">
+If you erroneously use the same request id for a request with a different request body, this will return an error.
 </aside>
-<h1 id='kittens'>Kittens</h1><h2 id='get-all-kittens'>Get All Kittens</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<h1 id='versioning'>Versioning</h1>
+<p>Another advantage of GQL is that the need for versioning largely does away; the schema evolves overtime w/out the need for strict versions.</p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+<p>Backwards Compatible Changes
+99% of GQL changes are backwards compatible; they involve deprecating a field which just results in a warning if used but doesn&#39;t stop working. Or it&#39;s a new field altogether and since you aren&#39;t asking for it, it doesn&#39;t affect you.</p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">kittens</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="nx">get</span><span class="p">();</span>
+<p>Breaking Changes
+We try to refrain from doing backwards incompatible changes, but it might happen that we need to remove, rename or restructure fields or parameters. We will only do this after notifying our users beforehand and keeping the impact as small as possible. We might introduce a new api version (/v3) to incorporate these changes.</p>
+<h1 id='queries'>Queries</h1>
+<p>As mentioned earlier, the source of truth for what&#39;s available can be browsed from directly inside your GQL Client. Duplicating and maintaining the spec would defeat the advantages of GQL. With that in mind, this section will be very high level to help shape your understanding of what&#39;s available, <strong>not</strong> the source of truth.</p>
+<h2 id='activities'>Activities</h2><pre class="highlight plaintext"><code>query Activities($filter: ActivitiesFilter!, $pagination: Pagination!, $sort: ActivitySort) {
+  activities(filter: $filter, pagination: $pagination, sort: $sort) {
+    entries {
+      name
+    }
+  }
+}
 </code></pre>
 <blockquote>
-<p>The above command returns JSON structured like this:</p>
+<p>Example Response:</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fluffums"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"calico"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
-</span></code></pre>
-<p>This endpoint retrieves all kittens.</p>
-<h3 id='http-request'>HTTP Request</h3>
-<p><code>GET http://example.com/api/kittens</code></p>
-<h3 id='query-parameters'>Query Parameters</h3>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Default</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>include_cats</td>
-<td>false</td>
-<td>If set to true, the result will also include cats.</td>
-</tr>
-<tr>
-<td>available</td>
-<td>true</td>
-<td>If set to false, the result will include kittens that have already been adopted.</td>
-</tr>
-</tbody></table>
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-<h2 id='get-a-specific-kitten'>Get a Specific Kitten</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-</code></pre>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+<pre class="highlight json tab-json"><code><span class="w">
+</span><span class="p">{</span><span class="w">
+  </span><span class="s2">"activities"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+    </span><span class="s2">"entries"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w"> </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Activity 1"</span><span class="w"> </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w"> </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Activity 2"</span><span class="w"> </span><span class="p">},</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">}]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>This endpoint retrieves a specific kitten.</p>
+<p>The <code>Activities</code> query is the most powerful query in the API in that it can be used for two major use-cases:</p>
 
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-<h3 id='http-request-2'>HTTP Request</h3>
-<p><code>GET http://example.com/kittens/&lt;ID&gt;</code></p>
-<h3 id='url-parameters'>URL Parameters</h3>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>ID</td>
-<td>The ID of the kitten to retrieve</td>
-</tr>
-</tbody></table>
-<h2 id='delete-a-specific-kitten'>Delete a Specific Kitten</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<p>1) Provide activities based on filters/sorting (location / price / keywords / etc). This could power real-time experiences where you need very specific activities for a given use-case.
+2) You want to &quot;ingest&quot; our entire inventory through crawling every page of the results, pulling every field that is of importance to you.</p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+<p>For the purposes of this example, let&#39;s say you just need each Activity&#39;s <code>name</code>. Your query for both use-cases would be identical.</p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span>
-  -X DELETE
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-</code></pre>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"deleted"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">":("</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p>This endpoint deletes a specific kitten.</p>
-<h3 id='http-request-3'>HTTP Request</h3>
-<p><code>DELETE http://example.com/kittens/&lt;ID&gt;</code></p>
-<h3 id='url-parameters-2'>URL Parameters</h3>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>ID</td>
-<td>The ID of the kitten to delete</td>
-</tr>
-</tbody></table>
-<h1 id='errors'>Errors</h1>
-<aside class="notice">
-This error section is stored in a separate file in <code>includes/_errors.md</code>. Slate allows you to optionally separate out your docs into many files...just save them to the <code>includes</code> folder and add them to the top of your <code>index.md</code>'s frontmatter. Files are included in the order listed.
-</aside>
-
-<p>The Kittn API uses the following error codes:</p>
-
-<table><thead>
-<tr>
-<th>Error Code</th>
-<th>Meaning</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>400</td>
-<td>Bad Request -- Your request is invalid.</td>
-</tr>
-<tr>
-<td>401</td>
-<td>Unauthorized -- Your API key is wrong.</td>
-</tr>
-<tr>
-<td>403</td>
-<td>Forbidden -- The kitten requested is hidden for administrators only.</td>
-</tr>
-<tr>
-<td>404</td>
-<td>Not Found -- The specified kitten could not be found.</td>
-</tr>
-<tr>
-<td>405</td>
-<td>Method Not Allowed -- You tried to access a kitten with an invalid method.</td>
-</tr>
-<tr>
-<td>406</td>
-<td>Not Acceptable -- You requested a format that isn&#39;t json.</td>
-</tr>
-<tr>
-<td>410</td>
-<td>Gone -- The kitten requested has been removed from our servers.</td>
-</tr>
-<tr>
-<td>418</td>
-<td>I&#39;m a teapot.</td>
-</tr>
-<tr>
-<td>429</td>
-<td>Too Many Requests -- You&#39;re requesting too many kittens! Slow down!</td>
-</tr>
-<tr>
-<td>500</td>
-<td>Internal Server Error -- We had a problem with our server. Try again later.</td>
-</tr>
-<tr>
-<td>503</td>
-<td>Service Unavailable -- We&#39;re temporarily offline for maintenance. Please try again later.</td>
-</tr>
-</tbody></table>
+<p>In the two examples above, the main difference is what you pass in for variables. For a very specific query you&#39;d pass in filters and sort values based on your desires. For crawling the whole inventory, you&#39;d also likely not include any filters and you&#39;d ask for <code>total_pages</code> so you can crawl through all of them.</p>
 
       </div>
       <div class="dark-box">
-          <div class="lang-selector">
-                <a href="#" data-language-name="shell">shell</a>
-                <a href="#" data-language-name="ruby">ruby</a>
-                <a href="#" data-language-name="python">python</a>
-                <a href="#" data-language-name="javascript">javascript</a>
-          </div>
       </div>
     </div>
   </body>
