@@ -281,9 +281,9 @@
 <li>Check Real Time Availability</li>
 <li>Create Bookings</li>
 </ul>
-<pre class="highlight plaintext"><code>💥💥  One Endpoint  💥💥
+<div class="highlight"><pre class="highlight plaintext"><code>💥💥  One Endpoint  💥💥
 https://api.peek.com/gql
-</code></pre><h1 id='why-gql'>Why GQL?</h1>
+</code></pre></div><h1 id='why-gql'>Why GQL?</h1>
 <p>We chose Graphql over some older standards because it is the <strong>best tool</strong> for us to expose our data to you in an <em>elegant</em>, <em>self-documenting</em>, <em>flexible</em> and <em>performant</em> way.</p>
 
 <p>If you are new to Graphql, we are confident you will never
@@ -357,7 +357,7 @@ think about APIs the same way again.</p>
 <p>If you&#39;re new to JWTs, <a href="https://jwt.io/">https://jwt.io/</a> is a GREAT place to start:</p>
 
 <p><img src="https://user-images.githubusercontent.com/1004167/73561655-38b77700-440e-11ea-8ea7-f00068dc1750.png" alt="image" /></p>
-<pre class="highlight elixir tab-elixir"><code><span class="k">defmodule</span> <span class="no">Token</span> <span class="k">do</span>
+<div class="highlight"><pre class="highlight elixir tab-elixir"><code><span class="k">defmodule</span> <span class="no">Token</span> <span class="k">do</span>
   <span class="kn">use</span> <span class="no">Joken</span><span class="o">.</span><span class="no">Config</span>
 
   <span class="nv">@doc</span> <span class="sd">"""
@@ -379,7 +379,7 @@ think about APIs the same way again.</p>
 <span class="k">end</span>
 
 <span class="no">Token</span><span class="o">.</span><span class="n">for_request_id</span><span class="p">(</span><span class="sd">"</span><span class="s2">unique-request-id"</span><span class="p">)</span>
-</code></pre>
+</code></pre></div>
 <p>The reason we chose JWT is because there exists a client for (nearly?) every language imaginable. No need to write your own logic, just find the library (all listed on the above site) for your language and it should be straightforward from there.</p>
 
 <p>We are an Elixir Shop (don&#39;t even get me started), so our Library of choice is called <code>Joken</code>; on the right is how you might choose to implement the above w/ Joken.</p>
@@ -405,18 +405,18 @@ If you erroneously use the same request id for a request with a different reques
 <p>We try to refrain from doing backwards incompatible changes, but it might happen that we need to remove, rename or restructure fields or parameters. We will only do this after notifying our users beforehand and keeping the impact as small as possible. We might introduce a new api version (/v3) to incorporate these changes.</p>
 <h1 id='queries'>Queries</h1>
 <p>As mentioned earlier, the source of truth for what&#39;s available can be browsed from directly inside your GQL Client. Duplicating and maintaining the spec would defeat the advantages of GQL. With that in mind, this section will be very high level to help shape your understanding of what&#39;s available, <strong>not</strong> the source of truth.</p>
-<h2 id='activities'>Activities</h2><pre class="highlight plaintext"><code>query Activities($filter: ActivitiesFilter!, $pagination: Pagination!, $sort: ActivitySort) {
-  activities(filter: $filter, pagination: $pagination, sort: $sort) {
-    entries {
-      name
-    }
-  }
-}
-</code></pre>
+<h2 id='activities'>Activities</h2><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="n">Activities</span><span class="p">(</span><span class="nv">$filter</span><span class="p">:</span><span class="w"> </span><span class="n">ActivitiesFilter</span><span class="p">!,</span><span class="w"> </span><span class="nv">$pagination</span><span class="p">:</span><span class="w"> </span><span class="n">Pagination</span><span class="p">!,</span><span class="w"> </span><span class="nv">$sort</span><span class="p">:</span><span class="w"> </span><span class="n">ActivitySort</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">activities</span><span class="p">(</span><span class="n">filter</span><span class="p">:</span><span class="w"> </span><span class="nv">$filter</span><span class="p">,</span><span class="w"> </span><span class="n">pagination</span><span class="p">:</span><span class="w"> </span><span class="nv">$pagination</span><span class="p">,</span><span class="w"> </span><span class="n">sort</span><span class="p">:</span><span class="w"> </span><span class="nv">$sort</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">entries</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">name</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
 <blockquote>
 <p>Example Response:</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="w">
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="w">
 </span><span class="p">{</span><span class="w">
   </span><span class="s2">"activities"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
     </span><span class="s2">"entries"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
@@ -425,7 +425,7 @@ If you erroneously use the same request id for a request with a different reques
     </span><span class="p">]</span><span class="w">
   </span><span class="p">}]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
+</span></code></pre></div>
 <p>The <code>Activities</code> query is the most powerful query in the API in that it can be used for two major use-cases:</p>
 
 <ol>
