@@ -1,4 +1,4 @@
-# Why GQL?
+# Why GraphQL?
 
 We chose GraphQL over some older standards because it is the **best tool** for us to expose our data to you in an *elegant*, *self-documenting*, *flexible* and *performant* way.
 

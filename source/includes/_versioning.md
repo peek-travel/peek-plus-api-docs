@@ -1,10 +1,10 @@
 # Versioning
 
-Another advantage of GQL is that the need for versioning largely goes away; the schema evolves overtime without the need for strict versions.
+Another advantage of GraphQL is that the need for versioning largely goes away; the schema evolves overtime without the need for strict versions.
 
 ### Backwards Compatible Changes
 
-99% of our GQL changes are backwards compatible; they involve deprecating a field which just results in a warning if used but doesn't stop working. Or it's a new field altogether and since you aren't asking for it, it doesn't affect you.
+99% of our GraphQL changes are backwards compatible; they involve deprecating a field which just results in a warning if used but doesn't stop working. Or it's a new field altogether and since you aren't asking for it, it doesn't affect you.
 
 ![image](https://user-images.githubusercontent.com/1004167/73579222-af686a80-4436-11ea-90ab-ab8e9a242606.png)
 

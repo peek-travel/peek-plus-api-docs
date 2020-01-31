@@ -1,6 +1,6 @@
 # Queries
 
-As mentioned earlier, the source of truth for what's available can be browsed from directly inside your GQL Client. Duplicating and maintaining the spec would defeat the advantages of GQL. With that in mind, this section will be very high level to help shape your understanding of what's available, **not** the source of truth.
+As mentioned earlier, the source of truth for what's available can be browsed from directly inside your GraphQL Client. Duplicating and maintaining the spec would defeat the advantages of GraphQL. With that in mind, this section will be very high level to help shape your understanding of what's available, **not** the source of truth.
 
 ## Activities
 
