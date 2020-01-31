@@ -159,10 +159,12 @@ If you erroneously use the same request id for a request with a different reques
 
 Another advantage of GQL is that the need for versioning largely does away; the schema evolves overtime w/out the need for strict versions.
 
-Backwards Compatible Changes
+### Backwards Compatible Changes
+
 99% of GQL changes are backwards compatible; they involve deprecating a field which just results in a warning if used but doesn't stop working. Or it's a new field altogether and since you aren't asking for it, it doesn't affect you.
 
-Breaking Changes
+### Breaking Changes
+
 We try to refrain from doing backwards incompatible changes, but it might happen that we need to remove, rename or restructure fields or parameters. We will only do this after notifying our users beforehand and keeping the impact as small as possible. We might introduce a new api version (/v3) to incorporate these changes.
 
 # Queries
@@ -197,9 +199,9 @@ query Activities($filter: ActivitiesFilter!, $pagination: Pagination!, $sort: Ac
 
 The `Activities` query is the most powerful query in the API in that it can be used for two major use-cases:
 
-1) Provide activities based on filters/sorting (location / price / keywords / etc). This could power real-time experiences where you need very specific activities for a given use-case.
-2) You want to "ingest" our entire inventory through crawling every page of the results, pulling every field that is of importance to you.
+1. Provide activities based on filters/sorting (location / price / keywords / etc). This could power real-time experiences where you need very specific activities for a given use-case.
+2. You want to "ingest" our entire inventory through crawling every page of the results, pulling every field that is of importance to you.
 
 For the purposes of this example, let's say you just need each Activity's `name`. Your query for both use-cases would be identical.
 
-In the two examples above, the main difference is what you pass in for variables. For a very specific query you'd pass in filters and sort values based on your desires. For crawling the whole inventory, you'd also likely not include any filters and you'd ask for `total_pages` so you can crawl through all of them.
+In the two examples above, the main difference is what you pass in for variables. For a very specific query you'd pass in filters and sort values based on your desires. For crawling the whole inventory, you'd also likely not include any filters and you'd ask for `totalPages` so you can crawl through all of them, etc.
