@@ -308,15 +308,14 @@
 <ul>
 <li>Search For Activities</li>
 <li>Check Real Time Availability</li>
-<li>Create Bookings</li>
+<li>Create Quotes / Orders</li>
 </ul>
 <div class="highlight"><pre class="highlight plaintext"><code>💥💥  One Endpoint  💥💥
 https://api.peek.com/gql
 </code></pre></div><h1 id='why-gql'>Why GQL?</h1>
 <p>We chose Graphql over some older standards because it is the <strong>best tool</strong> for us to expose our data to you in an <em>elegant</em>, <em>self-documenting</em>, <em>flexible</em> and <em>performant</em> way.</p>
 
-<p>If you are new to Graphql, we are confident you will never
-think about APIs the same way again.</p>
+<p>If you are new to Graphql, we are confident you will never think about APIs the same way again.</p>
 
 <p>If you are already familiar with Graphql, we can feel your excitement; we&#39;re right there with you.</p>
 <h2 id='smaller-customizable-payloads'>Smaller, Customizable Payloads</h2>
@@ -328,21 +327,21 @@ think about APIs the same way again.</p>
 <li>image</li>
 </ul>
 
-<p>Then someone comes along and makes a really compelling case for exposing the location. So, for them, we add a few new fields for lat and lng.</p>
+<p>Then someone comes along and makes a really compelling case for exposing the location. So, for them, we add a few new fields for <code>lat</code> and <code>lng</code>.</p>
 
-<p>Then someone comes along later and asks for review meta data because they want to expose it. Reasonable. So again we go and add a few new fields for the count and average rating.</p>
+<p>Then someone comes along later and asks for review meta data because they want to expose it. Reasonable. So again we go and add a few new fields for the <code>count</code> and <code>average_rating</code>.</p>
 
 <p>Then someone comes along and says they want a field that is actually pretty heavy. They are aware that it is heavier but are comfortable only asking for a few activities. So we add it.</p>
 
-<p>Now the original users who just want the name and description are telling us the api is too slow; uh oh they were querying for a ton of activities and that heavy field is now a problem. So we hack together some query params where you can white-list fields:</p>
+<p>Now the original users who just want the <code>name</code> and <code>description</code> are telling us the api is too slow; uh oh they were querying for a ton of activities and that heavy field is now a problem. So we hack together some query params where you can white-list fields:</p>
 
 <p><code>http://example.com/activities?fields=name,description...</code></p>
 
-<p>Great, but when you ask for activities, we actually want to also be able to get the tickets.. so now you are in this world of</p>
+<p>Great, but when you ask for activities, we actually want to also be able to get the tickets.. so now you are all</p>
 
 <p><code>http://example.com/activities?fields=name,description,tickets.name...</code></p>
 
-<p>And everything starts to feel really dirty.</p>
+<p>..and everything starts to feel really dirty.</p>
 
 <p>With GraphQL, we simply expose our object graph:</p>
 
@@ -361,21 +360,21 @@ think about APIs the same way again.</p>
 </ul></li>
 </ul>
 
-<p>And you, the owner of your own experience, ask for what you need and we return it to you. Simple as that. Furthermore, if you find your self wanting 4 or 5 different things, you can ask for them all at once saving many round trips to the server.</p>
+<p>And you, the owner of your experience, ask for what you need and we return it to you. Simple as that. Furthermore, if you find your self wanting 4 or 5 different things, you can ask for them all at once saving many round trips to the server.</p>
 
 <p>Wins. All. Around.</p>
 <h2 id='strongly-typed'>Strongly Typed</h2>
-<p>With a traditional &quot;REST API&quot;, you find yourself stringing together complex query params to filter content:</p>
+<p>With a traditional REST API, you find yourself stringing together complex query params to filter content:</p>
 
 <p><code>http://example.com/activities?sort=price&amp;filter[state]=NY...</code></p>
 
-<p>Inevitably the question comes in; &quot;what are possible values for SORT&quot;, or &quot;what should I use for the STATE?&quot;. In those traditional APIs, you&#39;d be digging for the email that linked to the docs or more likely guessing and checking. It is then up the api server to gracefully handle all possible mistakes to get you a reasonable error message if you deviate from what&#39;s expected. This is a lot of work for both parties, and is error prone.</p>
+<p>Inevitably the question comes in &quot;what are possible values for SORT&quot;, or &quot;what should I use for the STATE?&quot;. In those traditional APIs, you&#39;d be digging for the email that linked to the docs or some light guessing and checking. It is then up the api server to gracefully handle all possible mistakes to get you a reasonable error message if you deviate from what&#39;s expected. This is a lot of work for both parties, and is error prone.</p>
 
-<p>With Graphql, every query is <strong>Strongly Typed</strong> - you get immediate feedback of what the values can be, and if you deviate from it, the request doesn&#39;t even make it to our application logic; you are immediately given a good error explaining your mistake.</p>
+<p>With Graphql, every query is <strong>Strongly Typed</strong> - you get immediate feedback of what the value can be, and if you deviate from it, the request doesn&#39;t even make it to our application logic; you are immediately given a good error explaining your mistake.</p>
 
 <p><img src="https://user-images.githubusercontent.com/1004167/73576938-893fcc00-4430-11ea-9045-66020005fae8.png" alt="image" /></p>
 <h2 id='self-documenting'>Self Documenting</h2>
-<p>Piggy backing on the strongly type point from above, Graphql was written, from the ground up, to be easy to &quot;introspect&quot;. There are a host of great free IDEs out there; we are big fans of <a href="https://insomnia.rest/graphql/">https://insomnia.rest/graphql/</a> - simply by downloading that client and pointing to our sandbox, you have every query, field and mutation documented. We find crafting your queries there and then moving them into your app is a solid way to work.</p>
+<p>Piggy-backing on the strongly type point from above, Graphql was written, from the ground up, to be easy to &quot;introspect&quot;. There are a host of great free clients out there; we are big fans of <a href="https://insomnia.rest/graphql/">https://insomnia.rest/graphql/</a> - simply by downloading that client and pointing to our sandbox url, you have every query, field and mutation documented. We find crafting your queries there and then moving them into your app is a solid way to work.</p>
 
 <p><img src="https://user-images.githubusercontent.com/1004167/73577149-010df680-4431-11ea-8cb9-ccfd998d6ca7.png" alt="image" /></p>
 <h2 id='further-reading'>Further Reading</h2>
@@ -383,7 +382,7 @@ think about APIs the same way again.</p>
 <li><a href="https://graphql.org/learn/queries/">https://graphql.org/learn/queries/</a></li>
 </ul>
 <h1 id='authentication'>Authentication</h1><h2 id='jwt'>JWT</h2>
-<p>When you are granted access to the API, you will be given an Api Key (&quot;your-api-key&quot;) and a Secret (&quot;your-secret&quot;). Every request you make will require you to create a JWT, that includes your API Key in the <code>sub</code> field and a unique request ID in the <code>reqid</code> field. Which is the signed w/ your Secret:</p>
+<p>When you are granted access to the API, you will be given an Api Key (&quot;your-api-key&quot;) and a Secret (&quot;your-secret&quot;). Every request you make will require you to create a JWT that includes your API Key in the <code>sub</code> field and a unique request ID in the <code>reqid</code> field, which is then signed w/ your secret:</p>
 
 <p><code>{&quot;sub&quot;: &quot;your-api-key&quot;, &quot;reqid&quot;: &quot;unique-request-id&quot;}</code></p>
 
@@ -415,7 +414,7 @@ think about APIs the same way again.</p>
 </code></pre></div>
 <p>The reason we chose JWT is because there exists a client for (nearly?) every language imaginable. No need to write your own logic, just find the library (all listed on the above site) for your language and it should be straightforward from there.</p>
 
-<p>We are an Elixir Shop (don&#39;t even get me started), so our Library of choice is called <code>Joken</code>; on the right is how you might choose to implement the above w/ Joken.</p>
+<p>We are an Elixir Shop (don&#39;t even get me started), so our library of choice is called <code>Joken</code>; on the right is how you might choose to implement the above w/ <code>Joken</code>.</p>
 <h2 id='add-token-as-header'>Add Token as Header</h2>
 <p>The Token you generated above has to be included in the header for every request:</p>
 
@@ -425,17 +424,19 @@ think about APIs the same way again.</p>
 
 <aside class="warning">Please keep your API credentials secret. Do not put it in client-side code.</aside>
 <h1 id='idempotency'>Idempotency</h1>
-<p>Since every request that you make must contain a unique request id inside the signed token, if you make a second request w/ the same request id we will assume this you replaying a request and will return the original response.</p>
+<p>Since every request that you make must contain a unique request id inside the signed token, if you make a second request with the same request id we will assume this you replaying a request and will return the original response.</p>
 
 <aside class="warning">
 If you erroneously use the same request id for a request with a different request body, this will return an error.
 </aside>
 <h1 id='versioning'>Versioning</h1>
-<p>Another advantage of GQL is that the need for versioning largely does away; the schema evolves overtime w/out the need for strict versions.</p>
+<p>Another advantage of GQL is that the need for versioning largely goes away; the schema evolves overtime without the need for strict versions.</p>
 <h3 id='backwards-compatible-changes'>Backwards Compatible Changes</h3>
-<p>99% of GQL changes are backwards compatible; they involve deprecating a field which just results in a warning if used but doesn&#39;t stop working. Or it&#39;s a new field altogether and since you aren&#39;t asking for it, it doesn&#39;t affect you.</p>
+<p>99% of our GQL changes are backwards compatible; they involve deprecating a field which just results in a warning if used but doesn&#39;t stop working. Or it&#39;s a new field altogether and since you aren&#39;t asking for it, it doesn&#39;t affect you.</p>
+
+<p><img src="https://user-images.githubusercontent.com/1004167/73579222-af686a80-4436-11ea-90ab-ab8e9a242606.png" alt="image" /></p>
 <h3 id='breaking-changes'>Breaking Changes</h3>
-<p>We do everything possible to avoid these, and at the time of writing this, see no reason why we&#39;ll ever have them. That said, let&#39;s say a field has been deprecated for 6 months and an integration continues to use it even after being told that it&#39;s going away, eventually that field will have to go, which yes, would be a breaking change. Beyond this we don&#39;t see a reason why we can evolve this API through clean deprecations.</p>
+<p>We do everything possible to avoid these, and at the time of writing this, see no reason why we&#39;ll ever have them. That said, let&#39;s say a field has been deprecated for 6 months and an integration continues to use it even after being told that it&#39;s going away, eventually that field will have to go, which yes, would be a breaking change. Beyond this we don&#39;t see a reason why we can&#39;t evolve this API through clean deprecations.</p>
 <h1 id='queries'>Queries</h1>
 <p>As mentioned earlier, the source of truth for what&#39;s available can be browsed from directly inside your GQL Client. Duplicating and maintaining the spec would defeat the advantages of GQL. With that in mind, this section will be very high level to help shape your understanding of what&#39;s available, <strong>not</strong> the source of truth.</p>
 <h2 id='activities'>Activities</h2>
@@ -480,15 +481,15 @@ If you erroneously use the same request id for a request with a different reques
 <h1 id='mutations'>Mutations</h1><h2 id='createquote'>CreateQuote</h2>
 <p>A quote holds a set of inventory while locking in a price. You can think of a quote as a draft order or a reservation.</p>
 
-<p>(coming soon)</p>
+<p>(more on this coming soon)</p>
 <h2 id='updatequote'>UpdateQuote</h2>
 <p>It is useful to update a quote as a customer changes the tickets, switches their desired time, etc.</p>
 
-<p>(coming soon)</p>
+<p>(more on this coming soon)</p>
 <h2 id='createorder'>CreateOrder</h2>
-<p>This will create an order out of the given quote. At this point, you order is finalized.</p>
+<p>This will create an order out of a given quote. At this point, you order is submitted.</p>
 
-<p>(coming soon)</p>
+<p>(more on this coming soon)</p>
 
       </div>
       <div class="dark-box">
