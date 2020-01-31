@@ -1,10 +1,10 @@
 # Why GQL?
 
-We chose Graphql over some older standards because it is the **best tool** for us to expose our data to you in an *elegant*, *self-documenting*, *flexible* and *performant* way.
+We chose GraphQL over some older standards because it is the **best tool** for us to expose our data to you in an *elegant*, *self-documenting*, *flexible* and *performant* way.
 
-If you are new to Graphql, we are confident you will never think about APIs the same way again.
+If you are new to GraphQL, we are confident you will never think about APIs the same way again.
 
-If you are already familiar with Graphql, we can feel your excitement; we're right there with you.
+If you are already familiar with GraphQL, we can feel your excitement; we're right there with you.
 
 ## Smaller, Customizable Payloads
 
@@ -51,12 +51,12 @@ With a traditional REST API, you find yourself stringing together complex query 
 
 Inevitably the question comes in "what are possible values for SORT", or "what should I use for the STATE?". In those traditional APIs, you'd be digging for the email that linked to the docs or some light guessing and checking. It is then up the api server to gracefully handle all possible mistakes to get you a reasonable error message if you deviate from what's expected. This is a lot of work for both parties, and is error prone.
 
-With Graphql, every query is **Strongly Typed** - you get immediate feedback of what the value can be, and if you deviate from it, the request doesn't even make it to our application logic; you are immediately given a good error explaining your mistake.
+With GraphQL, every query is **Strongly Typed** - you get immediate feedback of what the value can be, and if you deviate from it, the request doesn't even make it to our application logic; you are immediately given a good error explaining your mistake.
 
 ![image](https://user-images.githubusercontent.com/1004167/73576938-893fcc00-4430-11ea-9045-66020005fae8.png)
 
 ## Self Documenting
-Piggy-backing on the strongly type point from above, Graphql was written, from the ground up, to be easy to "introspect". There are a host of great free clients out there; we are big fans of [https://insomnia.rest/graphql/](https://insomnia.rest/graphql/) - simply by downloading that client and pointing to our sandbox url, you have every query, field and mutation documented. We find crafting your queries there and then moving them into your app is a solid way to work.
+Piggy-backing on the strongly type point from above, GraphQL was written, from the ground up, to be easy to "introspect". There are a host of great free clients out there; we are big fans of [https://insomnia.rest/graphql/](https://insomnia.rest/graphql/) - simply by downloading that client and pointing to our sandbox url, you have every query, field and mutation documented. We find crafting your queries there and then moving them into your app is a solid way to work.
 
 ![image](https://user-images.githubusercontent.com/1004167/73577149-010df680-4431-11ea-8cb9-ccfd998d6ca7.png)
 
