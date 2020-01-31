@@ -8,7 +8,7 @@ With the PeekPlus API you can
 
 * Search For Activities
 * Check Real Time Availability
-* Create Bookings
+* Create Quotes / Orders
 
 ```
 💥💥  One Endpoint  💥💥

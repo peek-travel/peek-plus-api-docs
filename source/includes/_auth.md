@@ -3,7 +3,7 @@
 
 ## JWT
 
-When you are granted access to the API, you will be given an Api Key ("your-api-key") and a Secret ("your-secret"). Every request you make will require you to create a JWT, that includes your API Key in the `sub` field and a unique request ID in the `reqid` field. Which is the signed w/ your Secret:
+When you are granted access to the API, you will be given an Api Key ("your-api-key") and a Secret ("your-secret"). Every request you make will require you to create a JWT that includes your API Key in the `sub` field and a unique request ID in the `reqid` field, which is then signed w/ your secret:
 
 `{"sub": "your-api-key", "reqid": "unique-request-id"}`
 
@@ -38,7 +38,7 @@ Token.for_request_id("unique-request-id")
 
 The reason we chose JWT is because there exists a client for (nearly?) every language imaginable. No need to write your own logic, just find the library (all listed on the above site) for your language and it should be straightforward from there.
 
-We are an Elixir Shop (don't even get me started), so our Library of choice is called `Joken`; on the right is how you might choose to implement the above w/ Joken.
+We are an Elixir Shop (don't even get me started), so our library of choice is called `Joken`; on the right is how you might choose to implement the above w/ `Joken`.
 
 ## Add Token as Header
 
