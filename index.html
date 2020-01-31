@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>API Documentation</title>
+    <title>Peek Plus API</title>
 
     <style>
       .highlight table td { padding: 5px; }
@@ -198,10 +198,10 @@
     </style>
     <link href="stylesheets/screen-a1ce949a.css" rel="stylesheet" media="screen" />
     <link href="stylesheets/print-bccf8c07.css" rel="stylesheet" media="print" />
-      <script src="javascripts/all_nosearch-c275c2f6.js"></script>
+      <script src="javascripts/all-c5541673.js"></script>
   </head>
 
-  <body class="index" data-languages="[]">
+  <body class="index" data-languages="[&quot;graphql&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -210,6 +210,13 @@
     </a>
     <div class="toc-wrapper">
       <img src="images/logo-5d0c5f50.png" class="logo" alt="Logo" />
+        <div class="lang-selector">
+              <a href="#" data-language-name="graphql">graphql</a>
+        </div>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
       <ul id="toc" class="toc-list-h1">
           <li>
             <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
@@ -262,9 +269,31 @@
                   <li>
                     <a href="#activities" class="toc-h2 toc-link" data-title="Activities">Activities</a>
                   </li>
+                  <li>
+                    <a href="#availability" class="toc-h2 toc-link" data-title="Availability">Availability</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#mutations" class="toc-h1 toc-link" data-title="Mutations">Mutations</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#createquote" class="toc-h2 toc-link" data-title="CreateQuote">CreateQuote</a>
+                  </li>
+                  <li>
+                    <a href="#updatequote" class="toc-h2 toc-link" data-title="UpdateQuote">UpdateQuote</a>
+                  </li>
+                  <li>
+                    <a href="#createorder" class="toc-h2 toc-link" data-title="CreateOrder">CreateOrder</a>
+                  </li>
               </ul>
           </li>
       </ul>
+        <ul class="toc-footer">
+            <li><a href='https://www.peek.com/developers'>Sign Up</a></li>
+            <li><a href='https://github.com/peek-travel/peek-plus-api-docs'>Contribute</a></li>
+            <li><a href='https://github.com/lord/slate'>🙌</a></li>
+        </ul>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
@@ -343,8 +372,12 @@ think about APIs the same way again.</p>
 <p>Inevitably the question comes in; &quot;what are possible values for SORT&quot;, or &quot;what should I use for the STATE?&quot;. In those traditional APIs, you&#39;d be digging for the email that linked to the docs or more likely guessing and checking. It is then up the api server to gracefully handle all possible mistakes to get you a reasonable error message if you deviate from what&#39;s expected. This is a lot of work for both parties, and is error prone.</p>
 
 <p>With Graphql, every query is <strong>Strongly Typed</strong> - you get immediate feedback of what the values can be, and if you deviate from it, the request doesn&#39;t even make it to our application logic; you are immediately given a good error explaining your mistake.</p>
+
+<p><img src="https://user-images.githubusercontent.com/1004167/73576938-893fcc00-4430-11ea-9045-66020005fae8.png" alt="image" /></p>
 <h2 id='self-documenting'>Self Documenting</h2>
 <p>Piggy backing on the strongly type point from above, Graphql was written, from the ground up, to be easy to &quot;introspect&quot;. There are a host of great free IDEs out there; we are big fans of <a href="https://insomnia.rest/graphql/">https://insomnia.rest/graphql/</a> - simply by downloading that client and pointing to our sandbox, you have every query, field and mutation documented. We find crafting your queries there and then moving them into your app is a solid way to work.</p>
+
+<p><img src="https://user-images.githubusercontent.com/1004167/73577149-010df680-4431-11ea-8cb9-ccfd998d6ca7.png" alt="image" /></p>
 <h2 id='further-reading'>Further Reading</h2>
 <ul>
 <li><a href="https://graphql.org/learn/queries/">https://graphql.org/learn/queries/</a></li>
@@ -402,10 +435,17 @@ If you erroneously use the same request id for a request with a different reques
 <h3 id='backwards-compatible-changes'>Backwards Compatible Changes</h3>
 <p>99% of GQL changes are backwards compatible; they involve deprecating a field which just results in a warning if used but doesn&#39;t stop working. Or it&#39;s a new field altogether and since you aren&#39;t asking for it, it doesn&#39;t affect you.</p>
 <h3 id='breaking-changes'>Breaking Changes</h3>
-<p>We try to refrain from doing backwards incompatible changes, but it might happen that we need to remove, rename or restructure fields or parameters. We will only do this after notifying our users beforehand and keeping the impact as small as possible. We might introduce a new api version (/v3) to incorporate these changes.</p>
+<p>We do everything possible to avoid these, and at the time of writing this, see no reason why we&#39;ll ever have them. That said, let&#39;s say a field has been deprecated for 6 months and an integration continues to use it even after being told that it&#39;s going away, eventually that field will have to go, which yes, would be a breaking change. Beyond this we don&#39;t see a reason why we can evolve this API through clean deprecations.</p>
 <h1 id='queries'>Queries</h1>
 <p>As mentioned earlier, the source of truth for what&#39;s available can be browsed from directly inside your GQL Client. Duplicating and maintaining the spec would defeat the advantages of GQL. With that in mind, this section will be very high level to help shape your understanding of what&#39;s available, <strong>not</strong> the source of truth.</p>
-<h2 id='activities'>Activities</h2><div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="n">Activities</span><span class="p">(</span><span class="nv">$filter</span><span class="p">:</span><span class="w"> </span><span class="n">ActivitiesFilter</span><span class="p">!,</span><span class="w"> </span><span class="nv">$pagination</span><span class="p">:</span><span class="w"> </span><span class="n">Pagination</span><span class="p">!,</span><span class="w"> </span><span class="nv">$sort</span><span class="p">:</span><span class="w"> </span><span class="n">ActivitySort</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+<h2 id='activities'>Activities</h2>
+<p>The <code>Activities</code> query is the most powerful query in the API in that it can be used for two major use-cases:</p>
+
+<ol>
+<li>Provide activities based on filters/sorting (location / price / keywords / etc). This could power real-time experiences where you need very specific activities for a given use-case.</li>
+<li>You want to &quot;ingest&quot; our entire inventory through crawling every page of the results, pulling every field that is of importance to you.</li>
+</ol>
+<div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="n">Activities</span><span class="p">(</span><span class="nv">$filter</span><span class="p">:</span><span class="w"> </span><span class="n">ActivitiesFilter</span><span class="p">!,</span><span class="w"> </span><span class="nv">$pagination</span><span class="p">:</span><span class="w"> </span><span class="n">Pagination</span><span class="p">!,</span><span class="w"> </span><span class="nv">$sort</span><span class="p">:</span><span class="w"> </span><span class="n">ActivitySort</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
   </span><span class="n">activities</span><span class="p">(</span><span class="n">filter</span><span class="p">:</span><span class="w"> </span><span class="nv">$filter</span><span class="p">,</span><span class="w"> </span><span class="n">pagination</span><span class="p">:</span><span class="w"> </span><span class="nv">$pagination</span><span class="p">,</span><span class="w"> </span><span class="n">sort</span><span class="p">:</span><span class="w"> </span><span class="nv">$sort</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="n">entries</span><span class="w"> </span><span class="p">{</span><span class="w">
       </span><span class="n">name</span><span class="w">
@@ -413,32 +453,48 @@ If you erroneously use the same request id for a request with a different reques
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<blockquote>
-<p>Example Response:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="w">
-</span><span class="p">{</span><span class="w">
-  </span><span class="s2">"activities"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
-    </span><span class="s2">"entries"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-      </span><span class="p">{</span><span class="w"> </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Activity 1"</span><span class="w"> </span><span class="p">},</span><span class="w">
-      </span><span class="p">{</span><span class="w"> </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Activity 2"</span><span class="w"> </span><span class="p">},</span><span class="w">
-    </span><span class="p">]</span><span class="w">
-  </span><span class="p">}]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<p>The <code>Activities</code> query is the most powerful query in the API in that it can be used for two major use-cases:</p>
-
-<ol>
-<li>Provide activities based on filters/sorting (location / price / keywords / etc). This could power real-time experiences where you need very specific activities for a given use-case.</li>
-<li>You want to &quot;ingest&quot; our entire inventory through crawling every page of the results, pulling every field that is of importance to you.</li>
-</ol>
-
 <p>For the purposes of this example, let&#39;s say you just need each Activity&#39;s <code>name</code>. Your query for both use-cases would be identical.</p>
 
 <p>In the two examples above, the main difference is what you pass in for variables. For a very specific query you&#39;d pass in filters and sort values based on your desires. For crawling the whole inventory, you&#39;d also likely not include any filters and you&#39;d ask for <code>totalPages</code> so you can crawl through all of them, etc.</p>
 
+<blockquote>
+<p>Example Response:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"activities"</span><span class="p">:</span> <span class="p">[{</span>
+    <span class="s2">"entries"</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span> <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Activity 1"</span> <span class="p">},</span>
+      <span class="p">{</span> <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Activity 2"</span> <span class="p">},</span>
+    <span class="p">]</span>
+  <span class="p">}]</span>
+<span class="p">}</span>
+</code></pre></div><h2 id='availability'>Availability</h2>
+<p>This query is split into two individual queries;</p>
+
+<ol>
+<li>Get high-level cachable dates to get an idea of, roughly speaking, when a given activity is available.</li>
+<li>Given a specific set of tickets (1x Adult, 2x Child) for an activity on a specific date, what times are available.</li>
+</ol>
+
+<p>(coming soon)</p>
+<h1 id='mutations'>Mutations</h1><h2 id='createquote'>CreateQuote</h2>
+<p>A quote holds a set of inventory while locking in a price. You can think of a quote as a draft order or a reservation.</p>
+
+<p>(coming soon)</p>
+<h2 id='updatequote'>UpdateQuote</h2>
+<p>It is useful to update a quote as a customer changes the tickets, switches their desired time, etc.</p>
+
+<p>(coming soon)</p>
+<h2 id='createorder'>CreateOrder</h2>
+<p>This will create an order out of the given quote. At this point, you order is finalized.</p>
+
+<p>(coming soon)</p>
+
       </div>
       <div class="dark-box">
+          <div class="lang-selector">
+                <a href="#" data-language-name="graphql">graphql</a>
+          </div>
       </div>
     </div>
   </body>
