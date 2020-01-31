@@ -247,6 +247,14 @@
           </li>
           <li>
             <a href="#versioning" class="toc-h1 toc-link" data-title="Versioning">Versioning</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#backwards-compatible-changes" class="toc-h2 toc-link" data-title="Backwards Compatible Changes">Backwards Compatible Changes</a>
+                  </li>
+                  <li>
+                    <a href="#breaking-changes" class="toc-h2 toc-link" data-title="Breaking Changes">Breaking Changes</a>
+                  </li>
+              </ul>
           </li>
           <li>
             <a href="#queries" class="toc-h1 toc-link" data-title="Queries">Queries</a>
@@ -391,12 +399,10 @@ If you erroneously use the same request id for a request with a different reques
 </aside>
 <h1 id='versioning'>Versioning</h1>
 <p>Another advantage of GQL is that the need for versioning largely does away; the schema evolves overtime w/out the need for strict versions.</p>
-
-<p>Backwards Compatible Changes
-99% of GQL changes are backwards compatible; they involve deprecating a field which just results in a warning if used but doesn&#39;t stop working. Or it&#39;s a new field altogether and since you aren&#39;t asking for it, it doesn&#39;t affect you.</p>
-
-<p>Breaking Changes
-We try to refrain from doing backwards incompatible changes, but it might happen that we need to remove, rename or restructure fields or parameters. We will only do this after notifying our users beforehand and keeping the impact as small as possible. We might introduce a new api version (/v3) to incorporate these changes.</p>
+<h3 id='backwards-compatible-changes'>Backwards Compatible Changes</h3>
+<p>99% of GQL changes are backwards compatible; they involve deprecating a field which just results in a warning if used but doesn&#39;t stop working. Or it&#39;s a new field altogether and since you aren&#39;t asking for it, it doesn&#39;t affect you.</p>
+<h3 id='breaking-changes'>Breaking Changes</h3>
+<p>We try to refrain from doing backwards incompatible changes, but it might happen that we need to remove, rename or restructure fields or parameters. We will only do this after notifying our users beforehand and keeping the impact as small as possible. We might introduce a new api version (/v3) to incorporate these changes.</p>
 <h1 id='queries'>Queries</h1>
 <p>As mentioned earlier, the source of truth for what&#39;s available can be browsed from directly inside your GQL Client. Duplicating and maintaining the spec would defeat the advantages of GQL. With that in mind, this section will be very high level to help shape your understanding of what&#39;s available, <strong>not</strong> the source of truth.</p>
 <h2 id='activities'>Activities</h2><pre class="highlight plaintext"><code>query Activities($filter: ActivitiesFilter!, $pagination: Pagination!, $sort: ActivitySort) {
@@ -422,12 +428,14 @@ We try to refrain from doing backwards incompatible changes, but it might happen
 </span></code></pre>
 <p>The <code>Activities</code> query is the most powerful query in the API in that it can be used for two major use-cases:</p>
 
-<p>1) Provide activities based on filters/sorting (location / price / keywords / etc). This could power real-time experiences where you need very specific activities for a given use-case.
-2) You want to &quot;ingest&quot; our entire inventory through crawling every page of the results, pulling every field that is of importance to you.</p>
+<ol>
+<li>Provide activities based on filters/sorting (location / price / keywords / etc). This could power real-time experiences where you need very specific activities for a given use-case.</li>
+<li>You want to &quot;ingest&quot; our entire inventory through crawling every page of the results, pulling every field that is of importance to you.</li>
+</ol>
 
 <p>For the purposes of this example, let&#39;s say you just need each Activity&#39;s <code>name</code>. Your query for both use-cases would be identical.</p>
 
-<p>In the two examples above, the main difference is what you pass in for variables. For a very specific query you&#39;d pass in filters and sort values based on your desires. For crawling the whole inventory, you&#39;d also likely not include any filters and you&#39;d ask for <code>total_pages</code> so you can crawl through all of them.</p>
+<p>In the two examples above, the main difference is what you pass in for variables. For a very specific query you&#39;d pass in filters and sort values based on your desires. For crawling the whole inventory, you&#39;d also likely not include any filters and you&#39;d ask for <code>totalPages</code> so you can crawl through all of them, etc.</p>
 
       </div>
       <div class="dark-box">
