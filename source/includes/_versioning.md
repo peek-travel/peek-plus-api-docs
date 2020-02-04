@@ -10,4 +10,4 @@ Another advantage of GraphQL is that the need for versioning largely goes away; 
 
 ### Breaking Changes
 
-We do everything possible to avoid these, and at the time of writing this, see no reason why we'll ever have them. That said, let's say a field has been deprecated for 6 months and an integration continues to use it even after being told that it's going away, eventually that field will have to go, which yes, would be a breaking change. Beyond this we don't see a reason why we can't evolve this API through clean deprecations.
+We do everything possible to avoid these, and at the time of writing this, see no reason why we'll ever have them. That said, let's say a field has been deprecated for 6 months and an integration continues to use it even after being told that it's going away, eventually that field will have to go, which yes, would be a breaking change. Beyond this we don't see a reason why we can't evolve this API through clean deprecations. We will notify all clients using deprecated fields of the potential breaking change and give ample time to update before removing completely.

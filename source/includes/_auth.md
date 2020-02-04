@@ -38,7 +38,7 @@ Token.for_request_id("unique-request-id")
 
 The reason we chose JWT is because there exists a client for (nearly?) every language imaginable. No need to write your own logic, just find the library (all listed on the above site) for your language and it should be straightforward from there.
 
-We are an Elixir Shop (don't even get me started), so our library of choice is called `Joken`; on the right is how you might choose to implement the above w/ `Joken`.
+We are an Elixir Shop, so our library of choice is called `Joken`; on the right is how you might choose to implement the above w/ `Joken`.
 
 ## Add Token as Header
 

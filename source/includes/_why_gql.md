@@ -2,9 +2,9 @@
 
 We chose GraphQL over some older standards because it is the **best tool** for us to expose our data to you in an *elegant*, *self-documenting*, *flexible* and *performant* way.
 
-If you are new to GraphQL, we are confident you will never think about APIs the same way again.
+If you are new to GraphQL: we are confident you will never think about APIs the same way again.
 
-If you are already familiar with GraphQL, we can feel your excitement; we're right there with you.
+If you are already familiar with GraphQL: we can feel your excitement; we're right there with you.
 
 ## Smaller, Customizable Payloads
 
@@ -14,13 +14,13 @@ In a traditional "here is the endpoint to return activities" scenario, the origi
 * description
 * image
 
-Then someone comes along and makes a really compelling case for exposing the location. So, for them, we add a few new fields for `lat` and `lng`.
+Then someone comes along and makes a compelling case for exposing the location. So, for them, we add a few new fields for `lat` and `lng`.
 
 Then someone comes along later and asks for review meta data because they want to expose it. Reasonable. So again we go and add a few new fields for the `count` and `average_rating`.
 
 Then someone comes along and says they want a field that is actually pretty heavy. They are aware that it is heavier but are comfortable only asking for a few activities. So we add it.
 
-Now the original users who just want the `name` and `description` are telling us the api is too slow; uh oh they were querying for a ton of activities and that heavy field is now a problem. So we hack together some query params where you can white-list fields:
+Now the original users who just want the `name` and `description` are telling us the api is too slow; they were querying for a ton of activities and that heavy field is now a problem. So we hack together some query params where you can white-list fields:
 
 `http://example.com/activities?fields=name,description...`
 
@@ -49,14 +49,16 @@ With a traditional REST API, you find yourself stringing together complex query 
 
 `http://example.com/activities?sort=price&filter[state]=NY...`
 
-Inevitably the question comes in "what are possible values for SORT", or "what should I use for the STATE?". In those traditional APIs, you'd be digging for the email that linked to the docs or some light guessing and checking. It is then up the api server to gracefully handle all possible mistakes to get you a reasonable error message if you deviate from what's expected. This is a lot of work for both parties, and is error prone.
+Inevitably the question comes in "what are possible values for SORT", or "what should I use for the STATE?". In those traditional APIs, you'd be digging for the email that linked to the docs or some light guessing and checking. It is then up to the api server to gracefully handle all possible mistakes to get you a reasonable error message if you deviate from what's expected. This is a lot of work for both parties, and is error prone.
 
 With GraphQL, every query is **Strongly Typed** - you get immediate feedback of what the value can be, and if you deviate from it, the request doesn't even make it to our application logic; you are immediately given a good error explaining your mistake.
+
+My client is catching a typo for me:
 
 ![image](https://user-images.githubusercontent.com/1004167/73576938-893fcc00-4430-11ea-9045-66020005fae8.png)
 
 ## Self Documenting
-Piggy-backing on the strongly type point from above, GraphQL was written, from the ground up, to be easy to "introspect". There are a host of great free clients out there; we are big fans of [https://insomnia.rest/graphql/](https://insomnia.rest/graphql/) - simply by downloading that client and pointing to our sandbox url, you have every query, field and mutation documented. We find crafting your queries there and then moving them into your app is a solid way to work.
+Piggy-backing on the strongly type point from above, GraphQL was written from the ground up to be easy to "introspect". There are a host of great free clients out there; we are big fans of [https://insomnia.rest/graphql/](https://insomnia.rest/graphql/) - simply by downloading that client and pointing to our sandbox url, you have every query, field and mutation documented. We find crafting your queries there and then moving them into your app is a solid way to work.
 
 ![image](https://user-images.githubusercontent.com/1004167/73577149-010df680-4431-11ea-8cb9-ccfd998d6ca7.png)
 
