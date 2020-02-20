@@ -3,26 +3,26 @@
 
 ## JWT
 
-When you are granted access to the API, you will be given an Api Key ("your-api-key") and a Secret ("your-secret"). Every request you make will require you to create a JWT that includes your API Key in the `sub` field and a unique request ID in the `reqid` field, which is then signed w/ your secret:
+When you are granted access to the API, you will be given an Api Key ("your-api-key") and a Secret ("your-secret"). Every request you make will require you to create a JWT that includes your API Key in the `sub` field and a unique ID in the `jti` field, which is then signed w/ your secret:
 
-`{"sub": "your-api-key", "reqid": "unique-request-id"}`
+`{"sub": "your-api-key", "jti": "unique-id", "exp": 1516239022}`
 
 If you're new to JWTs, [https://jwt.io/](https://jwt.io/) is a GREAT place to start:
 
-![image](https://user-images.githubusercontent.com/1004167/73561655-38b77700-440e-11ea-8ea7-f00068dc1750.png)
+![image](https://user-images.githubusercontent.com/1004167/74957531-87788100-53bc-11ea-9cde-1b3f2fe1c12b.png)
 
 ```elixir
 defmodule Token do
   use Joken.Config
 
   @doc """
-  Given a unique request ID, return a signed token.
+  Generate a signed token w/ default claims
   """
-  def for_request_id(request_id) do
+  def generate do
     {:ok, claims} =
+      # NOTE: Joken automatically adds a uniq `jti` + `exp` for every token generated.
       Token.generate_claims(%{
-        "sub" => "your-api-key",
-        "reqid" => request_id
+        "sub" => "your-api-key"
       })
 
     {:ok, token, _claims} = encode_and_sign(claims, signer())
@@ -33,7 +33,7 @@ defmodule Token do
   defp signer, do: Joken.Signer.create("HS256", "your-secret")
 end
 
-Token.for_request_id("unique-request-id")
+Token.generate()
 ```
 
 The reason we chose JWT is because there exists a client for (nearly?) every language imaginable. No need to write your own logic, just find the library (all listed on the above site) for your language and it should be straightforward from there.
