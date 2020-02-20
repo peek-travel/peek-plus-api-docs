@@ -384,24 +384,24 @@ https://api.peek.com/gql
 <li><a href="https://graphql.org/learn/queries/">https://graphql.org/learn/queries/</a></li>
 </ul>
 <h1 id='authentication'>Authentication</h1><h2 id='jwt'>JWT</h2>
-<p>When you are granted access to the API, you will be given an Api Key (&quot;your-api-key&quot;) and a Secret (&quot;your-secret&quot;). Every request you make will require you to create a JWT that includes your API Key in the <code>sub</code> field and a unique request ID in the <code>reqid</code> field, which is then signed w/ your secret:</p>
+<p>When you are granted access to the API, you will be given an Api Key (&quot;your-api-key&quot;) and a Secret (&quot;your-secret&quot;). Every request you make will require you to create a JWT that includes your API Key in the <code>sub</code> field and a unique ID in the <code>jti</code> field, which is then signed w/ your secret:</p>
 
-<p><code>{&quot;sub&quot;: &quot;your-api-key&quot;, &quot;reqid&quot;: &quot;unique-request-id&quot;}</code></p>
+<p><code>{&quot;sub&quot;: &quot;your-api-key&quot;, &quot;jti&quot;: &quot;unique-id&quot;, &quot;exp&quot;: 1516239022}</code></p>
 
 <p>If you&#39;re new to JWTs, <a href="https://jwt.io/">https://jwt.io/</a> is a GREAT place to start:</p>
 
-<p><img src="https://user-images.githubusercontent.com/1004167/73561655-38b77700-440e-11ea-8ea7-f00068dc1750.png" alt="image" /></p>
+<p><img src="https://user-images.githubusercontent.com/1004167/74957531-87788100-53bc-11ea-9cde-1b3f2fe1c12b.png" alt="image" /></p>
 <div class="highlight"><pre class="highlight elixir tab-elixir"><code><span class="k">defmodule</span> <span class="no">Token</span> <span class="k">do</span>
   <span class="kn">use</span> <span class="no">Joken</span><span class="o">.</span><span class="no">Config</span>
 
   <span class="nv">@doc</span> <span class="sd">"""
   Given a unique request ID, return a signed token.
   """</span>
-  <span class="k">def</span> <span class="n">for_request_id</span><span class="p">(</span><span class="n">request_id</span><span class="p">)</span> <span class="k">do</span>
+  <span class="k">def</span> <span class="n">generate</span> <span class="k">do</span>
     <span class="p">{</span><span class="ss">:ok</span><span class="p">,</span> <span class="n">claims</span><span class="p">}</span> <span class="o">=</span>
+      <span class="c1"># NOTE: Joken automatically adds a uniq `jti` + `exp` for every token generated.</span>
       <span class="no">Token</span><span class="o">.</span><span class="n">generate_claims</span><span class="p">(%{</span>
-        <span class="sd">"</span><span class="s2">sub"</span> <span class="o">=&gt;</span> <span class="sd">"</span><span class="s2">your-api-key"</span><span class="p">,</span>
-        <span class="sd">"</span><span class="s2">reqid"</span> <span class="o">=&gt;</span> <span class="n">request_id</span>
+        <span class="sd">"</span><span class="s2">sub"</span> <span class="o">=&gt;</span> <span class="sd">"</span><span class="s2">your-api-key"</span>
       <span class="p">})</span>
 
     <span class="p">{</span><span class="ss">:ok</span><span class="p">,</span> <span class="n">token</span><span class="p">,</span> <span class="n">_claims</span><span class="p">}</span> <span class="o">=</span> <span class="n">encode_and_sign</span><span class="p">(</span><span class="n">claims</span><span class="p">,</span> <span class="n">signer</span><span class="p">())</span>
@@ -412,7 +412,7 @@ https://api.peek.com/gql
   <span class="k">defp</span> <span class="n">signer</span><span class="p">,</span> <span class="k">do</span><span class="p">:</span> <span class="no">Joken</span><span class="o">.</span><span class="no">Signer</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="sd">"</span><span class="s2">HS256"</span><span class="p">,</span> <span class="sd">"</span><span class="s2">your-secret"</span><span class="p">)</span>
 <span class="k">end</span>
 
-<span class="no">Token</span><span class="o">.</span><span class="n">for_request_id</span><span class="p">(</span><span class="sd">"</span><span class="s2">unique-request-id"</span><span class="p">)</span>
+<span class="no">Token</span><span class="o">.</span><span class="n">generate</span><span class="p">()</span>
 </code></pre></div>
 <p>The reason we chose JWT is because there exists a client for (nearly?) every language imaginable. No need to write your own logic, just find the library (all listed on the above site) for your language and it should be straightforward from there.</p>
 
