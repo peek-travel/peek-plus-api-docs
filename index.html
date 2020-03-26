@@ -278,13 +278,16 @@
             <a href="#mutations" class="toc-h1 toc-link" data-title="Mutations">Mutations</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#createquote" class="toc-h2 toc-link" data-title="CreateQuote">CreateQuote</a>
+                    <a href="#createbookingquote" class="toc-h2 toc-link" data-title="CreateBookingQuote">CreateBookingQuote</a>
                   </li>
                   <li>
-                    <a href="#updatequote" class="toc-h2 toc-link" data-title="UpdateQuote">UpdateQuote</a>
+                    <a href="#updatebookingquote" class="toc-h2 toc-link" data-title="UpdateBookingQuote">UpdateBookingQuote</a>
                   </li>
                   <li>
-                    <a href="#createorder" class="toc-h2 toc-link" data-title="CreateOrder">CreateOrder</a>
+                    <a href="#createbooking" class="toc-h2 toc-link" data-title="CreateBooking">CreateBooking</a>
+                  </li>
+                  <li>
+                    <a href="#cancelbooking" class="toc-h2 toc-link" data-title="CancelBooking">CancelBooking</a>
                   </li>
               </ul>
           </li>
@@ -472,27 +475,177 @@ If you erroneously use the same request id for a request with a different reques
   <span class="p">}]</span>
 <span class="p">}</span>
 </code></pre></div><h2 id='availability'>Availability</h2>
-<p>This query is split into two individual queries;</p>
+<p>Determining whether something is available can be thought of as a two part process.</p>
 
 <ol>
-<li>Get high-level cachable dates to get an idea of, roughly speaking, when a given activity is available.</li>
-<li>Given a specific set of tickets (1x Adult, 2x Child) for an activity on a specific date, what times are available.</li>
+<li>Get high-level cachable dates + times to get an idea of, roughly speaking, when a given activity is available.</li>
+<li>Given a specific set of tickets (1x Adult, 2x Child) for a specific time, is it available and what will the price be.</li>
 </ol>
 
-<p>(coming soon)</p>
-<h1 id='mutations'>Mutations</h1><h2 id='createquote'>CreateQuote</h2>
-<p>A quote holds a set of inventory while locking in a price. You can think of a quote as a draft order or a reservation.</p>
+<p>The first is what we&#39;re going to talk about here. The second is in the next section as we call that a BookingQuote Mutation.</p>
 
-<p>(more on this coming soon)</p>
-<h2 id='updatequote'>UpdateQuote</h2>
+<p>With GraphQL, pulling availability is simply a &quot;field&quot; you can request for an activity:</p>
+<div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">query</span><span class="w"> </span><span class="n">ActivityById</span><span class="p">(</span><span class="nv">$id</span><span class="p">:</span><span class="w"> </span><span class="nb">ID</span><span class="p">!,</span><span class="w"> </span><span class="nv">$startDate</span><span class="p">:</span><span class="w"> </span><span class="n">Date</span><span class="p">!,</span><span class="w"> </span><span class="nv">$endDate</span><span class="p">:</span><span class="w"> </span><span class="n">Date</span><span class="p">!,</span><span class="w"> </span><span class="nv">$quantity</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">activity</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="nv">$id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">name</span><span class="w">
+    </span><span class="n">dates</span><span class="p">(</span><span class="n">startDate</span><span class="p">:</span><span class="nv">$startDate</span><span class="p">,</span><span class="w"> </span><span class="n">endDate</span><span class="p">:</span><span class="w"> </span><span class="nv">$endDate</span><span class="p">,</span><span class="w"> </span><span class="n">quantity</span><span class="p">:</span><span class="w"> </span><span class="nv">$quantity</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">date</span><span class="w">
+      </span><span class="n">times</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="n">id</span><span class="w">
+        </span><span class="n">localDateTimeStart</span><span class="w">
+        </span><span class="n">localDateTimeEnd</span><span class="w">
+        </span><span class="n">status</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Notice with GraphQL, &quot;fields&quot; can accept arguments (in this case the desired availability).</p>
+
+<p>The power of the above is that you can do the exact same thing with a search result and in a single query to the server, answer the question &quot;What are the top 10 things to do close by and what dates/times are available for them&quot;.</p>
+
+<aside class="warning">
+With great power... asking for a very large number of activities, each with a very large availability window will be slower and create a massive payload.
+
+We recommend running large availability requests one activity at a time and use the feed only for very short windows; perhaps only returning the next week of days w/ no times, for example.
+</aside>
+<h1 id='mutations'>Mutations</h1><h2 id='createbookingquote'>CreateBookingQuote</h2>
+<p>A quote holds a set of inventory while locking in a price. You can think of a quote as a draft booking or a reservation.</p>
+
+<p>There are times when something you thought would be available based on the Availability Calls is not available when making the quote.</p>
+
+<p>This can happen for a few reasons:</p>
+
+<p>1) The availability call was out of sync. Given this makes a real-time call to check the supplier&#39;s inventory, there&#39;s always a window where our initial call returned availability but this call didn&#39;t. Our goal is to make this window as small as possible</p>
+
+<p>2) Certain suppliers have very complex rules on how they accept bookings. It might be that your specific tickets aren&#39;t available, or there are complex rules around time-cutoffs.</p>
+
+<p>With those caveats aside, making these requests might look like this:</p>
+<div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">mutation</span><span class="w"> </span><span class="n">CreateQuote</span><span class="p">(</span><span class="nv">$request</span><span class="p">:</span><span class="w"> </span><span class="n">BookingQuoteInput</span><span class="p">!)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">createBookingQuote</span><span class="p">(</span><span class="n">quoteInput</span><span class="p">:</span><span class="w"> </span><span class="nv">$request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">bookingQuote</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">id</span><span class="w">
+      </span><span class="n">priceBreakdown</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="n">total</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="n">formatted</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+    </span><span class="n">errors</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">code</span><span class="w">
+      </span><span class="n">detail</span><span class="w">
+      </span><span class="n">value</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>With the variables formed something like this:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+    <span class="s2">"request"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"availabilityTimeId"</span><span class="p">:</span> <span class="s2">"at0apapwe6"</span><span class="p">,</span>
+        <span class="s2">"tickets"</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">"quantity"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                <span class="s2">"ticketId"</span><span class="p">:</span> <span class="s2">"t06rx6q"</span>
+            <span class="p">}</span>
+        <span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><h2 id='updatebookingquote'>UpdateBookingQuote</h2>
 <p>It is useful to update a quote as a customer changes the tickets, switches their desired time, etc.</p>
 
-<p>(more on this coming soon)</p>
-<h2 id='createorder'>CreateOrder</h2>
-<p>This will create an order out of a given quote. At this point, you order is submitted.</p>
-
-<p>(more on this coming soon)</p>
-
+<p>This call is nearly identical to the CreateBookingQuote:</p>
+<div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">mutation</span><span class="w"> </span><span class="n">EditBookingQuote</span><span class="p">(</span><span class="nv">$request</span><span class="p">:</span><span class="w"> </span><span class="n">EditBookingQuoteInput</span><span class="p">!)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">editBookingQuote</span><span class="p">(</span><span class="n">input</span><span class="p">:</span><span class="w"> </span><span class="nv">$request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">bookingQuote</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">id</span><span class="w">
+      </span><span class="n">priceBreakdown</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="n">total</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="n">formatted</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+    </span><span class="n">errors</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">code</span><span class="w">
+      </span><span class="n">detail</span><span class="w">
+      </span><span class="n">value</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>With the variables formed something like this:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+    <span class="s2">"request"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"bookingQuoteId"</span><span class="p">:</span> <span class="s2">"qb0nm9r"</span><span class="p">,</span>
+        <span class="s2">"quoteInput"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"availabilityTimeId"</span><span class="p">:</span> <span class="s2">"at0apapwe6"</span><span class="p">,</span>
+            <span class="s2">"tickets"</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s2">"quantity"</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+                    <span class="s2">"ticketId"</span><span class="p">:</span> <span class="s2">"t06rx6q"</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><h2 id='createbooking'>CreateBooking</h2>
+<p>This will create a booking out of a provided quote. At this point, your booking is submitted and there&#39;s nothing left to do on your end.</p>
+<div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">mutation</span><span class="w"> </span><span class="n">CreateBooking</span><span class="p">(</span><span class="nv">$request</span><span class="p">:</span><span class="w"> </span><span class="n">CreateBookingInput</span><span class="p">!)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">createBooking</span><span class="p">(</span><span class="n">input</span><span class="p">:</span><span class="w"> </span><span class="nv">$request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">booking</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">id</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+    </span><span class="n">errors</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">code</span><span class="w">
+      </span><span class="n">detail</span><span class="w">
+      </span><span class="n">value</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>With the variables formed something like this:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+    <span class="s2">"request"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"bookingQuoteId"</span><span class="p">:</span> <span class="s2">"qb0nm9r"</span><span class="p">,</span>
+        <span class="s2">"customer"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Peek Plus Demo"</span><span class="p">,</span>
+            <span class="s2">"email"</span><span class="p">:</span> <span class="s2">"name@example.com"</span><span class="p">,</span>
+            <span class="s2">"phone"</span><span class="p">:</span> <span class="s2">"0196488932"</span><span class="p">,</span>
+            <span class="s2">"country"</span><span class="p">:</span> <span class="s2">"US"</span><span class="p">,</span>
+            <span class="s2">"postalCode"</span><span class="p">:</span> <span class="s2">"12345"</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><h2 id='cancelbooking'>CancelBooking</h2>
+<p>This will cancel the booking in our system and notify the provider that the customer will no longer be coming. We are assuming a refund will be issued on your end and update the customer in our system to indicate a refund has been granted.</p>
+<div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">mutation</span><span class="w"> </span><span class="n">CancelBooking</span><span class="p">(</span><span class="nv">$input</span><span class="p">:</span><span class="w"> </span><span class="n">CancelBookingInput</span><span class="p">!)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">cancelBooking</span><span class="p">(</span><span class="n">input</span><span class="p">:</span><span class="w"> </span><span class="nv">$input</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">booking</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">status</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+    </span><span class="n">errors</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">code</span><span class="w">
+      </span><span class="n">detail</span><span class="w">
+      </span><span class="n">value</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<blockquote>
+<p>With the variables formed something like this:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+    <span class="s2">"input"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"bookingId"</span><span class="p">:</span> <span class="s2">"b0eb5p"</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
       </div>
       <div class="dark-box">
           <div class="lang-selector">
