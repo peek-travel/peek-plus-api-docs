@@ -17,7 +17,8 @@ With those caveats aside, making these requests might look like this:
 ```graphql
 mutation CreateQuote($request: BookingQuoteInput!) {
   createBookingQuote(quoteInput: $request) {
-    bookingQuote {
+    __typename
+    ... on BookingQuote {
       id
       priceBreakdown {
         total {
@@ -25,10 +26,8 @@ mutation CreateQuote($request: BookingQuoteInput!) {
         }
       }
     }
-    errors {
-      code
-      detail
-      value
+    ... on Error {
+      message
     }
   }
 }
@@ -59,18 +58,26 @@ This call is nearly identical to the CreateBookingQuote:
 ```graphql
 mutation EditBookingQuote($request: EditBookingQuoteInput!) {
   editBookingQuote(input: $request) {
-    bookingQuote {
+    __typename
+    ... on BookingQuote {
       id
       priceBreakdown {
+        price {
+          formatted
+        }
+        taxes {
+         formatted
+        }
+        fees {
+          formatted
+        }
         total {
           formatted
         }
       }
     }
-    errors {
-      code
-      detail
-      value
+    ... on Error {
+      message
     }
   }
 }
@@ -103,13 +110,15 @@ This will create a booking out of a provided quote. At this point, your booking 
 ```graphql
 mutation CreateBooking($request: CreateBookingInput!) {
   createBooking(input: $request) {
-    booking {
+    __typename
+    ... on Booking {
       id
     }
-    errors {
-      code
-      detail
-      value
+    ... on Error {
+      message
+    }
+    ... on InvalidCustomerError {
+      invalidFields
     }
   }
 }
@@ -140,13 +149,12 @@ This will cancel the booking in our system and notify the provider that the cust
 ```graphql
 mutation CancelBooking($input: CancelBookingInput!) {
   cancelBooking(input: $input) {
-    booking {
+    __typename
+    ... on Booking {
       status
     }
-    errors {
-      code
-      detail
-      value
+    ... on Error {
+      message
     }
   }
 }
