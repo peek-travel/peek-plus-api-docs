@@ -526,7 +526,8 @@ We recommend running large availability requests one activity at a time and use 
 <p>With those caveats aside, making these requests might look like this:</p>
 <div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">mutation</span><span class="w"> </span><span class="n">CreateQuote</span><span class="p">(</span><span class="nv">$request</span><span class="p">:</span><span class="w"> </span><span class="n">BookingQuoteInput</span><span class="p">!)</span><span class="w"> </span><span class="p">{</span><span class="w">
   </span><span class="n">createBookingQuote</span><span class="p">(</span><span class="n">quoteInput</span><span class="p">:</span><span class="w"> </span><span class="nv">$request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="n">bookingQuote</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">__typename</span><span class="w">
+    </span><span class="p">...</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">BookingQuote</span><span class="w"> </span><span class="p">{</span><span class="w">
       </span><span class="n">id</span><span class="w">
       </span><span class="n">priceBreakdown</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="n">total</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -534,10 +535,8 @@ We recommend running large availability requests one activity at a time and use 
         </span><span class="p">}</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">}</span><span class="w">
-    </span><span class="n">errors</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="n">code</span><span class="w">
-      </span><span class="n">detail</span><span class="w">
-      </span><span class="n">value</span><span class="w">
+    </span><span class="p">...</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">Error</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">message</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
@@ -562,18 +561,26 @@ We recommend running large availability requests one activity at a time and use 
 <p>This call is nearly identical to the CreateBookingQuote:</p>
 <div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">mutation</span><span class="w"> </span><span class="n">EditBookingQuote</span><span class="p">(</span><span class="nv">$request</span><span class="p">:</span><span class="w"> </span><span class="n">EditBookingQuoteInput</span><span class="p">!)</span><span class="w"> </span><span class="p">{</span><span class="w">
   </span><span class="n">editBookingQuote</span><span class="p">(</span><span class="n">input</span><span class="p">:</span><span class="w"> </span><span class="nv">$request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="n">bookingQuote</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">__typename</span><span class="w">
+    </span><span class="p">...</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">BookingQuote</span><span class="w"> </span><span class="p">{</span><span class="w">
       </span><span class="n">id</span><span class="w">
       </span><span class="n">priceBreakdown</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="n">price</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="n">formatted</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+        </span><span class="n">taxes</span><span class="w"> </span><span class="p">{</span><span class="w">
+         </span><span class="n">formatted</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+        </span><span class="n">fees</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="n">formatted</span><span class="w">
+        </span><span class="p">}</span><span class="w">
         </span><span class="n">total</span><span class="w"> </span><span class="p">{</span><span class="w">
           </span><span class="n">formatted</span><span class="w">
         </span><span class="p">}</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">}</span><span class="w">
-    </span><span class="n">errors</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="n">code</span><span class="w">
-      </span><span class="n">detail</span><span class="w">
-      </span><span class="n">value</span><span class="w">
+    </span><span class="p">...</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">Error</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">message</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
@@ -599,13 +606,15 @@ We recommend running large availability requests one activity at a time and use 
 <p>This will create a booking out of a provided quote. At this point, your booking is submitted and there&#39;s nothing left to do on your end.</p>
 <div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">mutation</span><span class="w"> </span><span class="n">CreateBooking</span><span class="p">(</span><span class="nv">$request</span><span class="p">:</span><span class="w"> </span><span class="n">CreateBookingInput</span><span class="p">!)</span><span class="w"> </span><span class="p">{</span><span class="w">
   </span><span class="n">createBooking</span><span class="p">(</span><span class="n">input</span><span class="p">:</span><span class="w"> </span><span class="nv">$request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="n">booking</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">__typename</span><span class="w">
+    </span><span class="p">...</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">Booking</span><span class="w"> </span><span class="p">{</span><span class="w">
       </span><span class="n">id</span><span class="w">
     </span><span class="p">}</span><span class="w">
-    </span><span class="n">errors</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="n">code</span><span class="w">
-      </span><span class="n">detail</span><span class="w">
-      </span><span class="n">value</span><span class="w">
+    </span><span class="p">...</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">Error</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">message</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+    </span><span class="p">...</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">InvalidCustomerError</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">invalidFields</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
@@ -629,13 +638,12 @@ We recommend running large availability requests one activity at a time and use 
 <p>This will cancel the booking in our system and notify the provider that the customer will no longer be coming. We are assuming a refund will be issued on your end and update the customer in our system to indicate a refund has been granted.</p>
 <div class="highlight"><pre class="highlight graphql tab-graphql"><code><span class="k">mutation</span><span class="w"> </span><span class="n">CancelBooking</span><span class="p">(</span><span class="nv">$input</span><span class="p">:</span><span class="w"> </span><span class="n">CancelBookingInput</span><span class="p">!)</span><span class="w"> </span><span class="p">{</span><span class="w">
   </span><span class="n">cancelBooking</span><span class="p">(</span><span class="n">input</span><span class="p">:</span><span class="w"> </span><span class="nv">$input</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="n">booking</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">__typename</span><span class="w">
+    </span><span class="p">...</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">Booking</span><span class="w"> </span><span class="p">{</span><span class="w">
       </span><span class="n">status</span><span class="w">
     </span><span class="p">}</span><span class="w">
-    </span><span class="n">errors</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="n">code</span><span class="w">
-      </span><span class="n">detail</span><span class="w">
-      </span><span class="n">value</span><span class="w">
+    </span><span class="p">...</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">Error</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">message</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
@@ -654,6 +662,8 @@ We recommend running large availability requests one activity at a time and use 
 <p>This will get you an entire working api ready to click through.</p>
 
 <aside class="warning">You must edit the environment to include your API Key + Secret for the api calls to work.</aside>
+
+<aside class="warning">Running this requires you to install a plugin to create your JWT Tokens: https://insomnia.rest/plugins/insomnia-plugin-jwtcreator - be sure to go to "tools->reload your plugins" after installing.</aside>
 
 <p><a href="https://insomnia.rest/run/?label=PeekPlus&amp;uri=https%3A%2F%2Fapi.peek.com%2Finsomnia.json"><img src="https://insomnia.rest/images/run.svg" alt="Run in Insomnia}" /></a></p>
 
